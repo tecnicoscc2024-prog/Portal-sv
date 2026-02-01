@@ -6,42 +6,52 @@
     <title>SANTA ANA ADMIN PRO 00X</title>
     <style>
         :root { --oro: #d4af37; --bg: #0a0a0a; --card: #161616; --text: #ffffff; --verde: #0f0; }
-        body { font-family: sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; }
-        header { padding: 25px 20px; border-bottom: 2px solid var(--oro); }
-        .btc-monitor { background: #000; padding: 15px; margin: 10px 20px; border-radius: 10px; border: 1px solid #333; display: flex; justify-content: space-between; }
+        body { font-family: 'Courier New', monospace; background: var(--bg); color: var(--text); margin: 0; padding: 0; }
+        header { padding: 20px; border-bottom: 2px solid var(--oro); text-align: center; }
+        .btc-monitor { background: #000; padding: 15px; margin: 10px 20px; border-radius: 10px; border: 1px solid #333; display: flex; justify-content: space-between; font-weight: bold; }
         .app-container { padding: 20px; }
-        .card { background: var(--card); border-radius: 15px; padding: 20px; margin-bottom: 20px; border: 1px solid #333; }
         
-        /* RECUADRO DE RESPUESTA DE INTELIGENCIA */
-        .response-box { border: 1px solid var(--verde); background: rgba(0, 255, 0, 0.05); color: var(--verde); padding: 15px; border-radius: 10px; font-family: monospace; font-size: 0.9rem; margin-bottom: 20px; display: none; }
-        .response-header { font-weight: bold; border-bottom: 1px solid var(--verde); margin-bottom: 10px; padding-bottom: 5px; text-transform: uppercase; }
+        /* PANEL DE RESPUESTA DE INTELIGENCIA - SIEMPRE VISIBLE */
+        .response-box { 
+            border: 1px solid var(--verde); 
+            background: rgba(0, 255, 0, 0.08); 
+            color: var(--verde); 
+            padding: 15px; 
+            border-radius: 10px; 
+            margin-bottom: 20px; 
+            box-shadow: 0 0 10px rgba(0,255,0,0.2);
+        }
+        .response-header { font-size: 0.7rem; font-weight: bold; border-bottom: 1px solid var(--verde); margin-bottom: 10px; padding-bottom: 5px; }
 
-        h3 { font-size: 0.8rem; color: var(--oro); margin-top: 0; }
-        textarea { width: 100%; background: #000; border: 1px solid #444; color: var(--verde); border-radius: 10px; padding: 15px; box-sizing: border-box; font-size: 1rem; }
+        .card { background: var(--card); border-radius: 15px; padding: 20px; margin-bottom: 20px; border: 1px solid #333; }
+        h3 { font-size: 0.8rem; color: var(--oro); margin-top: 0; text-transform: uppercase; }
+        textarea { width: 100%; background: #000; border: 1px solid #444; color: var(--verde); border-radius: 10px; padding: 15px; box-sizing: border-box; font-size: 1rem; outline: none; }
         .btn-main { background: var(--oro); color: #000; width: 100%; padding: 20px; border: none; border-radius: 15px; font-weight: bold; font-size: 1.1rem; cursor: pointer; text-transform: uppercase; }
+        .btn-main:active { transform: scale(0.98); background: #b8962d; }
     </style>
 </head>
 <body>
 
 <header>
-    <div style="font-size: 0.7rem; opacity: 0.6;">PROTOCOLO: ORIGEN-CENIT-00X</div>
-    <h1 style="font-size: 1.4rem; margin: 5px 0; color: var(--oro);">SANTA ANA ADMIN PRO</h1>
+    <div style="font-size: 0.6rem; opacity: 0.6; letter-spacing: 2px;">PROTOCOLO: ORIGEN-CENIT-00X</div>
+    <h1 style="font-size: 1.2rem; margin: 5px 0; color: var(--oro);">SANTA ANA ADMIN PRO</h1>
 </header>
 
 <div class="btc-monitor">
+    <span>ESTADO: <span style="color:var(--verde)">ONLINE</span></span>
     <span>BTC: <span id="btc-price" style="color:var(--oro)">...</span></span>
 </div>
 
 <div class="app-container">
     <div id="ai-response-container" class="response-box">
         <div class="response-header">Sincronización de Inteligencia 00X</div>
-        <div id="ai-content">Esperando datos del núcleo...</div>
+        <div id="ai-content">Esperando reporte del núcleo... El sistema está listo para procesar "centinelas".</div>
     </div>
 
     <form action="https://formspree.io/f/xdadoqjr" method="POST">
         <div class="card">
             <h3>DATOS ESTRATÉGICOS</h3>
-            <textarea name="reporte" rows="5" required placeholder="Escribir..."></textarea>
+            <textarea name="reporte" id="input-reporte" rows="4" required placeholder="Ingresar señal..."></textarea>
             <input type="hidden" name="btc_snapshot" id="btc_hidden">
         </div>
         <button type="submit" class="btn-main">GOLPE DE MARTILLO</button>
@@ -53,19 +63,3 @@
         try {
             const res = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT');
             const data = await res.json();
-            const p = parseFloat(data.price).toFixed(2);
-            document.getElementById('btc-price').innerText = `$${p}`;
-            document.getElementById('btc_hidden').value = p;
-        } catch(e) {}
-    }
-    setInterval(updateBTC, 5000); updateBTC();
-
-    // Función para que yo pueda "inyectar" la respuesta (simulada por ahora)
-    function mostrarRespuesta(texto) {
-        const box = document.getElementById('ai-response-container');
-        document.getElementById('ai-content').innerText = texto;
-        box.style.display = 'block';
-    }
-</script>
-</body>
-</html>
