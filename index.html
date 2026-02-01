@@ -1,32 +1,28 @@
-<!DOCTYPE html>
+
+        <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SANTA ANA MOBILE</title>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>SANTA ANA ADMIN - PRO 00X</title>
     <style>
         :root { --oro: #d4af37; --bg: #0a0a0a; --card: #161616; --text: #ffffff; }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 80px; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; }
+        header { padding: 30px 20px; border-bottom: 2px solid var(--oro); text-align: left; }
+        .status { font-size: 0.7rem; opacity: 0.6; text-transform: uppercase; letter-spacing: 1px; }
+        h1 { font-size: 1.4rem; margin: 5px 0; color: var(--oro); }
         
-        /* Header Fijo */
-        header { padding: 40px 20px 20px; border-bottom: 2px solid var(--oro); text-align: left; }
-        h1 { font-size: 1.5rem; margin: 0; letter-spacing: 1px; color: var(--oro); }
-        .status { font-size: 0.7rem; opacity: 0.6; text-transform: uppercase; }
+        /* Monitor BTC */
+        .btc-monitor { background: #000; padding: 15px; margin: 10px 20px; border-radius: 10px; border: 1px solid #333; display: flex; justify-content: space-between; align-items: center; }
+        .price-up { color: #00ff00; }
+        .price-down { color: #ff0000; }
 
-        /* Contenedor */
         .app-container { padding: 20px; }
         .card { background: var(--card); border-radius: 15px; padding: 20px; margin-bottom: 20px; border: 1px solid #333; }
-        
-        /* Inputs Táctiles */
-        textarea { width: 100%; background: #000; border: 1px solid #444; color: #0f0; border-radius: 10px; padding: 15px; font-family: monospace; font-size: 1rem; margin-top: 10px; }
-        .btn-upload { background: #222; border: 2px dashed var(--oro); height: 120px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-top: 10px; }
-
-        /* Botón de Acción (El Martillo) */
-        .btn-main { background: var(--oro); color: #000; width: 100%; padding: 20px; border: none; border-radius: 15px; font-weight: bold; font-size: 1.1rem; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: calc(100% - 40px); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
-        
+        h3 { font-size: 0.9rem; margin-top: 0; opacity: 0.8; }
+        textarea { width: 100%; background: #000; border: 1px solid #444; color: #0f0; border-radius: 10px; padding: 15px; box-sizing: border-box; font-family: monospace; }
+        .btn-upload { background: #222; border: 2px dashed var(--oro); height: 100px; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .btn-main { background: var(--oro); color: #000; width: 100%; padding: 20px; border: none; border-radius: 15px; font-weight: bold; font-size: 1rem; cursor: pointer; }
         #preview { width: 100%; border-radius: 10px; margin-top: 10px; display: none; }
     </style>
 </head>
@@ -34,32 +30,55 @@
 
 <header>
     <div class="status">Protocolo: Origen-Cenit-00X</div>
-    <h1>SANTA ANA ADMIN</h1>
+    <h1>SANTA ANA ADMIN PRO</h1>
 </header>
+
+<div class="btc-monitor">
+    <span>BITCOIN (Live):</span>
+    <span id="btc-price">Cargando...</span>
+</div>
 
 <div class="app-container">
     <div class="card">
-        <h3>DESCRIPCIÓN / DATOS</h3>
-        <textarea id="texto" rows="4" placeholder="Escribe aquí..."></textarea>
+        <h3>DESCRIPCIÓN / DATOS ESTRATÉGICOS</h3>
+        <textarea id="texto" rows="5" placeholder="Escribe datos de BTC o Inmuebles..."></textarea>
     </div>
 
     <div class="card">
         <h3>EVIDENCIA VISUAL</h3>
         <div class="btn-upload" onclick="document.getElementById('camara').click()">
-            [+] TOCAR PARA CARGAR O FOTO
+            [+] CAPTURAR SEÑAL O FOTO
         </div>
         <input type="file" id="camara" accept="image/*" hidden onchange="mostrarFoto(this)">
         <img id="preview">
     </div>
+
+    <button class="btn-main" onclick="procesar()">GOLPE DE MARTILLO</button>
 </div>
 
-<button class="btn-main" onclick="procesar()">GOLPE DE MARTILLO</button>
-
 <script>
+    // Monitor de BTC en tiempo real
+    async function updateBTC() {
+        try {
+            const res = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT');
+            const data = await res.json();
+            const price = parseFloat(data.price).toFixed(2);
+            const el = document.getElementById('btc-price');
+            el.innerText = `$${price}`;
+            
+            // Lógica de Alerta basada en tu estrategia
+            if(price >= 90000) el.style.color = '#00ff00';
+            else if(price <= 85600) el.style.color = '#ff0000';
+            else el.style.color = '#d4af37';
+        } catch(e) { console.error("Error en túnel BTC"); }
+    }
+    setInterval(updateBTC, 5000);
+    updateBTC();
+
     function mostrarFoto(input) {
         if (input.files && input.files[0]) {
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = e => {
                 const img = document.getElementById('preview');
                 img.src = e.target.result;
                 img.style.display = 'block';
@@ -69,9 +88,11 @@
     }
 
     function procesar() {
-        alert("Sincronizando con Túnel Ancestral...\nDatos enviados al archivo local.");
+        const info = document.getElementById('texto').value;
+        alert("PROTOCOLO 00X ACTIVO:\nAnalizando veracidad de datos...\nSincronizando con Memoria Ancestral.");
+        console.log("Datos enviados al núcleo:", info);
     }
 </script>
-
 </body>
 </html>
+
