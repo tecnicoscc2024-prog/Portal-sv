@@ -7,63 +7,45 @@
     <style>
         :root { --oro: #d4af37; --bg: #0a0a0a; --card: #161616; --text: #ffffff; }
         body { font-family: sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; }
-        header { padding: 30px 20px; border-bottom: 2px solid var(--oro); text-align: left; }
-        .status { font-size: 0.7rem; opacity: 0.6; text-transform: uppercase; letter-spacing: 1px; }
-        h1 { font-size: 1.4rem; margin: 5px 0; color: var(--oro); }
-        .btc-monitor { background: #000; padding: 15px; margin: 10px 20px; border-radius: 10px; border: 1px solid #333; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
+        header { padding: 30px 20px; border-bottom: 2px solid var(--oro); }
+        .btc-monitor { background: #000; padding: 15px; margin: 10px 20px; border-radius: 10px; border: 1px solid #333; display: flex; justify-content: space-between; align-items: center; }
         .app-container { padding: 20px; }
         .card { background: var(--card); border-radius: 15px; padding: 20px; margin-bottom: 20px; border: 1px solid #333; }
-        h3 { font-size: 0.9rem; margin-top: 0; opacity: 0.8; color: var(--oro); }
         textarea { width: 100%; background: #000; border: 1px solid #444; color: #0f0; border-radius: 10px; padding: 15px; box-sizing: border-box; font-family: monospace; font-size: 1rem; }
-        .btn-main { background: var(--oro); color: #000; width: 100%; padding: 20px; border: none; border-radius: 15px; font-weight: bold; font-size: 1.1rem; cursor: pointer; text-transform: uppercase; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
+        .btn-main { background: var(--oro); color: #000; width: 100%; padding: 20px; border: none; border-radius: 15px; font-weight: bold; font-size: 1.1rem; cursor: pointer; text-transform: uppercase; }
     </style>
 </head>
 <body>
-
 <header>
-    <div class="status">Protocolo: Origen-Cenit-00X</div>
-    <h1>SANTA ANA ADMIN PRO</h1>
+    <div style="font-size: 0.7rem; opacity: 0.6;">PROTOCOLO: ORIGEN-CENIT-00X</div>
+    <h1 style="font-size: 1.4rem; margin: 5px 0; color: var(--oro);">SANTA ANA ADMIN PRO</h1>
 </header>
-
 <div class="btc-monitor">
-    <span>BITCOIN (Live):</span>
+    <span>BTC (Live):</span>
     <span id="btc-price">Cargando...</span>
 </div>
-
 <div class="app-container">
-    <form action="https://formspree.io/f/meezqwpy" method="POST">
+    <form action="https://formspree.io/f/xdadoqjr" method="POST">
         <div class="card">
-            <h3>DATOS ESTRATÉGICOS</h3>
-            <textarea name="reporte_eduardo" rows="6" required placeholder="Escribe aquí tus datos de BTC o Santa Ana..."></textarea>
-            
+            <h3 style="font-size: 0.9rem; color: var(--oro);">DATOS ESTRATÉGICOS</h3>
+            <textarea name="reporte_eduardo" rows="8" required placeholder="Escribe datos de BTC o Santa Ana..."></textarea>
             <input type="hidden" name="btc_snapshot" id="btc_hidden">
-            <input type="hidden" name="_subject" value="REPORTE ESTRATÉGICO SANTA ANA 00X">
+            <input type="hidden" name="_subject" value="NUEVO REPORTE SANTA ANA 00X">
         </div>
-
         <button type="submit" class="btn-main">GOLPE DE MARTILLO</button>
     </form>
 </div>
-
 <script>
     async function updateBTC() {
         try {
             const res = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT');
             const data = await res.json();
             const p = parseFloat(data.price).toFixed(2);
-            const el = document.getElementById('btc-price');
-            el.innerText = `$${p}`;
+            document.getElementById('btc-price').innerText = `$${p}`;
             document.getElementById('btc_hidden').value = p;
-            
-            // Colores según tu estrategia de soporte ($85,600)
-            if(p >= 90000) el.style.color = '#00ff00';
-            else if(p <= 85600) el.style.color = '#ff0000';
-            else el.style.color = '#d4af37';
-        } catch(e) { console.error("Error en túnel"); }
+        } catch(e) {}
     }
-    setInterval(updateBTC, 5000);
-    updateBTC();
+    setInterval(updateBTC, 5000); updateBTC();
 </script>
-
 </body>
 </html>
-
