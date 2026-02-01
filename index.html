@@ -48,14 +48,20 @@
         <div id="ai-content">Esperando reporte del núcleo... El sistema está listo para procesar "centinelas".</div>
     </div>
 
-    <form action="https://formspree.io/f/xdadoqjr" method="POST">
-        <div class="card">
-            <h3>DATOS ESTRATÉGICOS</h3>
-            <textarea name="reporte" id="input-reporte" rows="4" required placeholder="Ingresar señal..."></textarea>
-            <input type="hidden" name="btc_snapshot" id="btc_hidden">
-        </div>
-        <button type="submit" class="btn-main">GOLPE DE MARTILLO</button>
-    </form>
+    <form action="https://formspree.io/f/xdadoqjr" method="POST" id="portal-form">
+  <div class="card">
+    <h3>DATOS ESTRATÉGICOS</h3>
+    
+    <div style="display:none;">
+      <input type="text" name="_gotcha">
+    </div>
+
+    <textarea name="reporte" id="input-reporte" rows="4" required placeholder="Ingresar señal..."></textarea>
+    <input type="hidden" name="btc_snapshot" id="btc_hidden">
+  </div>
+  <button type="submit" class="btn-main">GOLPE DE MARTILLO</button>
+</form>
+
 </div>
 
 <script>
