@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,17 +7,15 @@
     <style>
         :root { --oro: #d4af37; --bg: #0a0a0a; --card: #161616; --text: #ffffff; }
         body { font-family: sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; }
-        header { padding: 30px 20px; border-bottom: 2px solid var(--oro); }
+        header { padding: 30px 20px; border-bottom: 2px solid var(--oro); text-align: left; }
         .status { font-size: 0.7rem; opacity: 0.6; text-transform: uppercase; letter-spacing: 1px; }
         h1 { font-size: 1.4rem; margin: 5px 0; color: var(--oro); }
-        .btc-monitor { background: #000; padding: 15px; margin: 10px 20px; border-radius: 10px; border: 1px solid #333; display: flex; justify-content: space-between; align-items: center; }
+        .btc-monitor { background: #000; padding: 15px; margin: 10px 20px; border-radius: 10px; border: 1px solid #333; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
         .app-container { padding: 20px; }
         .card { background: var(--card); border-radius: 15px; padding: 20px; margin-bottom: 20px; border: 1px solid #333; }
-        h3 { font-size: 0.9rem; margin-top: 0; opacity: 0.8; }
+        h3 { font-size: 0.9rem; margin-top: 0; opacity: 0.8; color: var(--oro); }
         textarea { width: 100%; background: #000; border: 1px solid #444; color: #0f0; border-radius: 10px; padding: 15px; box-sizing: border-box; font-family: monospace; font-size: 1rem; }
-        .btn-upload { background: #222; border: 2px dashed var(--oro); height: 80px; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 0.8rem; }
-        .btn-main { background: var(--oro); color: #000; width: 100%; padding: 20px; border: none; border-radius: 15px; font-weight: bold; font-size: 1rem; cursor: pointer; text-transform: uppercase; }
-        #preview { width: 100%; border-radius: 10px; margin-top: 10px; display: none; }
+        .btn-main { background: var(--oro); color: #000; width: 100%; padding: 20px; border: none; border-radius: 15px; font-weight: bold; font-size: 1.1rem; cursor: pointer; text-transform: uppercase; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
     </style>
 </head>
 <body>
@@ -34,73 +31,39 @@
 </div>
 
 <div class="app-container">
-    <form id="form00x" action="https://formspree.io/f/meezqwpy" method="POST">
+    <form action="https://formspree.io/f/meezqwpy" method="POST">
         <div class="card">
-            <h3>DESCRIPCIÓN / DATOS ESTRATÉGICOS</h3>
-            <textarea name="descripcion" id="texto" rows="5" placeholder="Escribe datos de BTC o Inmuebles..."></textarea>
+            <h3>DATOS ESTRATÉGICOS</h3>
+            <textarea name="reporte_eduardo" rows="6" required placeholder="Escribe aquí tus datos de BTC o Santa Ana..."></textarea>
+            
             <input type="hidden" name="btc_snapshot" id="btc_hidden">
-            <input type="hidden" name="_subject" value="NUEVO REPORTE SANTA ANA 00X">
+            <input type="hidden" name="_subject" value="REPORTE ESTRATÉGICO SANTA ANA 00X">
         </div>
 
-        <div class="card">
-            <h3>EVIDENCIA VISUAL</h3>
-            <div class="btn-upload" onclick="document.getElementById('camara').click()">
-                [+] CAPTURAR SEÑAL O FOTO
-            </div>
-            <input type="file" name="evidencia" id="camara" accept="image/*" hidden onchange="mostrarFoto(this)">
-            <img id="preview">
-        </div>
-
-        <button type="button" class="btn-main" onclick="enviarReporte()">GOLPE DE MARTILLO</button>
+        <button type="submit" class="btn-main">GOLPE DE MARTILLO</button>
     </form>
 </div>
 
 <script>
-    let currentBTC = "";
-
     async function updateBTC() {
         try {
             const res = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT');
             const data = await res.json();
-            currentBTC = parseFloat(data.price).toFixed(2);
+            const p = parseFloat(data.price).toFixed(2);
             const el = document.getElementById('btc-price');
-            el.innerText = `$${currentBTC}`;
-            document.getElementById('btc_hidden').value = currentBTC;
+            el.innerText = `$${p}`;
+            document.getElementById('btc_hidden').value = p;
             
-            // Colores según tu estrategia
-            if(currentBTC >= 90000) el.style.color = '#00ff00';
-            else if(currentBTC <= 85600) el.style.color = '#ff0000';
+            // Colores según tu estrategia de soporte ($85,600)
+            if(p >= 90000) el.style.color = '#00ff00';
+            else if(p <= 85600) el.style.color = '#ff0000';
             else el.style.color = '#d4af37';
-        } catch(e) { console.error("Error BTC"); }
+        } catch(e) { console.error("Error en túnel"); }
     }
     setInterval(updateBTC, 5000);
     updateBTC();
-
-    function mostrarFoto(input) {
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = e => {
-                const img = document.getElementById('preview');
-                img.src = e.target.result;
-                img.style.display = 'block';
-            }
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-    function enviarReporte() {
-        const form = document.getElementById('form00x');
-        const texto = document.getElementById('texto').value;
-        
-        if(!texto) {
-            alert("PROTOCOLO 00X: Inserta datos antes de ejecutar el golpe.");
-            return;
-        }
-
-        alert("Sincronizando con Memoria Ancestral... Despachando reporte.");
-        form.submit();
-    }
 </script>
+
 </body>
 </html>
 
